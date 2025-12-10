@@ -3,14 +3,12 @@ from rclpy.node import Node
 from geometry_msgs.msg import Point
 import matplotlib.pyplot as plt
 import os
-import math # ספרייה בסיסית למרחק
-
+import math
 class CsvProcessor(Node):
     def __init__(self):
         super().__init__('csv_processor_node')
 
-        self.sub = self.create_subscription(
-            Point, 'cone_locations', self.callback, 10)
+        self.sub = self.create_subscription(Point, 'cone_locations', self.callback, 10)
 
         self.left = []
         self.right = []
@@ -23,8 +21,6 @@ class CsvProcessor(Node):
             self.left.append((msg.x, msg.y))
         elif msg.z == 2.0:
             self.right.append((msg.x, msg.y))
-
-        # אם אספנו מספיק נתונים משני הצדדים - מתחילים לחשב
         total = len(self.left) + len(self.right)
         if total >= self.expected_points:
             self.process_smart()
@@ -33,49 +29,37 @@ class CsvProcessor(Node):
         mid_x = []
         mid_y = []
 
-        # --- האלגוריתם המתקן: השכן הקרוב ---
-        # לכל נקודה בשמאל, נמצא את הכי קרובה בימין ונמצע ביניהן
         for lx, ly in self.left:
             
             closest_rx = 0
             closest_ry = 0
-            min_dist = 999999.0 # מספר ענק להתחלה
+            min_dist = 999999.0 
             
-            # לולאה שמוצאת את הנקודה הכי קרובה בצד השני
+            
             for rx, ry in self.right:
-                # נוסחת מרחק פשוטה
                 dist = math.hypot(lx - rx, ly - ry)
                 if dist < min_dist:
                     min_dist = dist
                     closest_rx = rx
                     closest_ry = ry
             
-            # חישוב הממוצע עם הנקודה הנכונה שמצאנו
             mid_x.append((lx + closest_rx) / 2)
             mid_y.append((ly + closest_ry) / 2)
 
-        # --- ציור ---
         plt.figure(figsize=(12,12))
-        
-        # ציור הנקודות
         plt.plot([p[0] for p in self.left], [p[1] for p in self.left], 'g.', label='Left')
         plt.plot([p[0] for p in self.right], [p[1] for p in self.right], 'r.', label='Right')
-        # ציור הקו האמצעי המתוקן
         plt.plot(mid_x, mid_y, 'b-', linewidth=3, label='Middle')
 
         plt.legend()
-        plt.axis("equal") # שומר על צורת המסלול שלא תמעך
+        plt.axis("equal")
         plt.grid(True)
         plt.title("Correct Middle Path")
-
-        # שמירה בטוחה
         os.makedirs("/ros2_ws/data", exist_ok=True)
         plt.savefig("/ros2_ws/data/result.png")
         plt.close()
 
-        self.get_logger().info("SUCCESS! Saved beautiful plot to /ros2_ws/data/result.png")
-        
-        # איפוס חשוב כדי לא להיתקע
+        self.get_logger().info("SUCCESS! Saved to /ros2_ws/data/result.png")
         self.left = []
         self.right = []
 

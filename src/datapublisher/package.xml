@@ -4,7 +4,7 @@
   <name>datapublisher</name>
   <version>0.0.0</version>
   <description>Reads CSV and publishes points</description>
-  <maintainer email="student@todo.todo"></maintainer>
+  <maintainer email="berelowi@post.bgu.ac.il"></maintainer>
   <license>Apache-2.0</license>
 
   <depend>rclpy</depend>
