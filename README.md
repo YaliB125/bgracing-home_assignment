@@ -13,8 +13,6 @@ The architecture consists of two isolated containers running on Ubuntu 24.04:
 * **Middleware:** ROS 2 Jazzy Jalisco
 * **Language:** Python 3.12
 * **Containerization:** Docker & Docker Compose
-* **Libraries:** `rclpy`, `pandas`, `matplotlib`
-
 
 ## Dataset Properties
 The project uses the BrandsHatchLayout.csv dataset.
@@ -31,12 +29,12 @@ The system is composed of two main ROS nodes:
 **Function:** Reads the CSV file line-by-line.
 * **Logic:**
     * Reads X, Y coordinates.
-    * Encodes the **side** information into the `z` coordinate:
-        * `z = 1.0` -> Left Boundary
-        * `z = 2.0` -> Right Boundary
+    * Encodes the **side** information into the z coordinate:
+        * z = 1.0 -> Left Boundary
+        * z = 2.0 -> Right Boundary
 
 
-### 2. `csv_processor_node` (Subscriber)
+### 2. csv_processor_node (Subscriber)
 * **Logic:**
     1.  Collects a batch of points
     2.  Computes the middle path
