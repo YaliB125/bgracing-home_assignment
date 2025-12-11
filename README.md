@@ -50,6 +50,7 @@ The system is composed of two main ROS nodes:
 ### Steps to Reproduce
 1.  **Clone the repository:**
     Open your terminal and run:
+    
     git clone [https://github.com/YaliB125/bgracing-home_assignment.git](https://github.com/YaliB125/bgracing-home_assignment.git)
 
     cd bgracing-home_assignment
@@ -57,12 +58,12 @@ The system is composed of two main ROS nodes:
 
 2.  **Build and Run (using Docker Compose):**
     This command will build the image and start the container.
-    
+
     docker compose up --build
     
 
 3.  **View Results:**
-    Once the process finishes, the result will be saved in the `./data` folder
+    Once the process finishes, the result will be saved in the ./data folder
     file named: result.png
 
 Results:
