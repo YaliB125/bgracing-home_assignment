@@ -7,7 +7,7 @@ log/
 __pycache__/
 *.py[cod]
 
-# Data outputs (אנחנו לא רוצים להעלות את התוצאה, רק את הקוד)
+# Data outputs
 data/result.png
 
 # VS Code settings
